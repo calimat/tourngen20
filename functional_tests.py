@@ -7,7 +7,7 @@ class NewTournamentCreation(unittest.TestCase):
         self.browser = webdriver.Firefox()
 
     def tearDown(self):
-        self.browser.quit(self)
+        self.browser.quit()
 
     def test_can_enter_a_tournament_and_retrieve_it_later(self):
         #User enters the new tournament generator app
