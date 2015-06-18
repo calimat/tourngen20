@@ -15,11 +15,17 @@ class NewTournamentCreation(unittest.TestCase):
 
         #She notices the page title and header "TOURNGEN"
         self.assertIn('Tourngen', self.browser.title)
-        self.fail('Finish the test')
+
+
+        #She sees a label for the tournament name input box that says Name
+        #tournament_name_label = self.browser.find_element_by_id('id_tournament_name_label')
+        #self.assertIn('Name', tournament_name_label)
 
         # She is invited to insert the name of the tournament  
+        tournament_name_inputbox = self.browser.find_element_by_id('id_tournament_name')
 
         #She types "Tournament 1" in the name of the tournament  
+        tournament_name_inputbox.send_keys('Tournament 1')
 
         #She types Checks the checkbox since she wants to create 
         #to create a public tournament  
@@ -47,6 +53,8 @@ class NewTournamentCreation(unittest.TestCase):
 
         #As soon as she clicks save , the page refreshes and she looks 
         # that her tournament was created with the fields that she entered.  
+
+        self.fail('Finish the test')
 
 if __name__ == '__main__':
     unittest.main(warnings='ignore')
