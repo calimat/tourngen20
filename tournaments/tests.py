@@ -3,6 +3,7 @@ from django.test import  TestCase
 from tournaments.views import home_page
 from django.http import HttpRequest
 from django.template.loader import render_to_string
+from tournaments.models import Tournament
 
 class HomePageTest(TestCase):
 
@@ -29,3 +30,18 @@ class HomePageTest(TestCase):
             {'new_tournament_name': 'Tournament 1'}
         )
         self.assertEqual(response.content.decode(), expected_html)
+
+class TournamentModelTest(TestCase):
+
+    def test_saving_and_retrieving_tournaments(self):
+        tournament_item = Tournament()
+        tournament_item.name = 'Tournament 1'
+        tournament_item.save()
+
+
+        saved_tournaments = Tournament.objects.all()
+        self.assertEqual(saved_tournaments.count(), 1)
+
+        saved_tournament = saved_tournaments[0]
+
+        self.assertEqual(saved_tournament.name, 'Tournament 1')

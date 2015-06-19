@@ -11,6 +11,11 @@ class NewTournamentCreation(unittest.TestCase):
     def tearDown(self):
         self.browser.quit()
 
+    def check_for_row_in_tournament_table(self, row_text):
+        tournnament_table = self.browser.find_element_by_id('id_tournament_table')
+        rows = tournnament_table.find_elements_by_tag_name('tr')
+        self.assertIn(row_text, [row.text for row in rows])
+
     def test_can_enter_a_tournament_and_retrieve_it_later(self):
         #User enters the new tournament generator app
         self.browser.get('http://localhost:8000')
@@ -42,13 +47,13 @@ class NewTournamentCreation(unittest.TestCase):
         save_button = self.browser.find_element_by_id('id_tournament_save')
         save_button.click()
 
-        tournnament_table = self.browser.find_element_by_id('id_tournament_table')
-        rows = tournnament_table.find_elements_by_tag_name('tr')
-        self.assertIn('Tournament 1', [row.text for row in rows])
+
+        self.check_for_row_in_tournament_table('Tournament 1')
+
 
         #Edith decides to enter a second Tournament
-        self.assertIn('Tournament 2', [row.text for row in rows])
-        
+        #self.assertIn('Tournament 2', [row.text for row in rows])
+
         #self.assertEqual(save_button.value, "Save")
 
 
