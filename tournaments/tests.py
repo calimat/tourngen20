@@ -16,11 +16,16 @@ class HomePageTest(TestCase):
         expected_html = render_to_string('home.html')
         self.assertEqual(response.content.decode(), expected_html)
 
-    # def test_home_page_can_save_a_POST_request(self):
-    #     request = HttpRequest()
-    #     request.method = 'POST'
-    #     request.POST['id_tournament_name'] = 'Tournament 1'
-    #
-    #     response = home_page(request)
-    #
-    #     self.assertIn('Tournament 1', response.content.decode())
+    def test_home_page_can_save_a_POST_request(self):
+        request = HttpRequest()
+        request.method = 'POST'
+        request.POST['tournament_name'] = 'Tournament 1'
+
+        response = home_page(request)
+
+        self.assertIn('Tournament 1', response.content.decode())
+        expected_html = render_to_string(
+            'home.html',
+            {'new_tournament_name': 'Tournament 1'}
+        )
+        self.assertEqual(response.content.decode(), expected_html)

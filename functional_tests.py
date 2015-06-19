@@ -44,10 +44,11 @@ class NewTournamentCreation(unittest.TestCase):
 
         tournnament_table = self.browser.find_element_by_id('id_tournament_table')
         rows = tournnament_table.find_elements_by_tag_name('tr')
-        self.assertTrue(
-            any(row.text == 'Tournament 1' for row in rows), "New tournament did not appear in table"
-        )
+        self.assertIn('Tournament 1', [row.text for row in rows])
 
+        #Edith decides to enter a second Tournament
+        self.assertIn('Tournament 2', [row.text for row in rows])
+        
         #self.assertEqual(save_button.value, "Save")
 
 
