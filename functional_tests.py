@@ -1,10 +1,12 @@
 from selenium import webdriver
 import unittest
+from selenium.webdriver.common.keys import Keys
 
 
 class NewTournamentCreation(unittest.TestCase):
     def setUp(self):
         self.browser = webdriver.Firefox()
+        self.browser.implicitly_wait(3)
 
     def tearDown(self):
         self.browser.quit()
@@ -21,11 +23,33 @@ class NewTournamentCreation(unittest.TestCase):
         #tournament_name_label = self.browser.find_element_by_id('id_tournament_name_label')
         #self.assertIn('Name', tournament_name_label)
 
-        # She is invited to insert the name of the tournament  
+        # She is invited to insert the name of the tournament   with  a label that says name
+        tournament_form = self.browser.find_element_by_id('id_tournament_form')
+        tournament_name_label = self.browser.find_element_by_id('id_tournament_name_label')
+
+        self.assertEqual(tournament_name_label.text, "Name:")
         tournament_name_inputbox = self.browser.find_element_by_id('id_tournament_name')
+
+
 
         #She types "Tournament 1" in the name of the tournament  
         tournament_name_inputbox.send_keys('Tournament 1')
+
+
+
+        #tournament_name_inputbox.send_keys(Keys.ENTER)
+        #She sees a save button and clicks on it
+        save_button = self.browser.find_element_by_id('id_tournament_save')
+        save_button.click()
+
+        tournnament_table = self.browser.find_element_by_id('id_tournament_table')
+        rows = tournnament_table.find_elements_by_tag_name('tr')
+        self.assertTrue(
+            any(row.text == 'Tournament 1' for row in rows), "New tournament did not appear in table"
+        )
+
+        #self.assertEqual(save_button.value, "Save")
+
 
         #She types Checks the checkbox since she wants to create 
         #to create a public tournament  
