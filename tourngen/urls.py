@@ -5,6 +5,7 @@ from tournaments import views
 
 urlpatterns = [
     url(r'^$', views.home_page, name='home'),
+    url(r'^tournaments/new', views.new_tournament, name='new_tournament'),
     url(r'^tournaments/the-only-tournament-in-the-world/$', views.view_tournament, name='view_tournament'),
     # url(r'^admin/', include(admin.site.urls)),
 ]
