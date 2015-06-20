@@ -37,25 +37,16 @@ class HomePageTest(TestCase):
         response = home_page(request)
 
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response['location'], '/')
+        self.assertEqual(response['location'], '/tournaments/the-only-tournament-in-the-world')
 
     def test_home_page_only_saves_teams_when_necessary(self):
         request = HttpRequest()
         home_page(request)
         self.assertEqual(Team.objects.count(), 0)
 
-    def test_home_page_displays_all_teams_items(self):
-        Team.objects.create(name='teamey 1')
-        Team.objects.create(name='teamey 2')
-
-        request = HttpRequest()
-        response = home_page(request)
-
-        self.assertIn('teamey 1', response.content.decode())
-        self.assertIn('teamey 2', response.content.decode())
 
 
-class TournamentTeamTest(TestCase):
+class TeamTest(TestCase):
     def test_saving_and_retrieving_teams(self):
         first_team = Team()
         first_team.name = 'Team 1'
@@ -73,3 +64,19 @@ class TournamentTeamTest(TestCase):
 
         self.assertEqual(first_saved_team.name, 'Team 1')
         self.assertEqual(second_saved_team.name, 'Team 2')
+
+class TournamentViewTest(TestCase):
+
+    def test_uses_tournament_template(self):
+        response = self.client.get('/tournaments/the-only-tournament-in-the-world/')
+        self.assertTemplateUsed(response, 'tournament.html')
+
+    def test_displays_all_teams(self):
+        Team.objects.create(name='teamey 1')
+        Team.objects.create(name='teamey 2')
+
+
+        response = self.client.get('/tournaments/the-only-tournament-in-the-world/')
+
+        self.assertContains(response, 'teamey 1')
+        self.assertContains(response, 'teamey 2')

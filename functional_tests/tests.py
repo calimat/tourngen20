@@ -2,9 +2,10 @@ from selenium import webdriver
 import unittest
 from unittest import skip
 from selenium.webdriver.common.keys import Keys
+from django.test import LiveServerTestCase
 
 
-class NewVisitorTest(unittest.TestCase):
+class NewVisitorTest(LiveServerTestCase):
     def setUp(self):
         self.browser = webdriver.Firefox()
         self.browser.implicitly_wait(3)
@@ -19,7 +20,7 @@ class NewVisitorTest(unittest.TestCase):
 
     def test_can_enter_a_team_and_retrieve_it_later(self):
         #User enters the new tournament generator app
-        self.browser.get('http://localhost:8000')
+        self.browser.get(self.live_server_url)
 
         #She notices the page title and header "TOURNGEN"
         self.assertIn('Tourngen', self.browser.title)
@@ -44,9 +45,13 @@ class NewVisitorTest(unittest.TestCase):
 
 
         #tournament_name_inputbox.send_keys(Keys.ENTER)
-        #She sees a save button and clicks on it
+        # When she hits enter, she is taken to a new URL,
+        # and now the page lists "Team 1" as an item in a
+        # teams table
         save_button = self.browser.find_element_by_id('id_team_save')
         save_button.click()
+        edith_tournament_url = self.browser.current_url
+        self.assertRegex(edith_tournament_url, '/tournaments/.+')
         self.check_for_row_in_team_table('Team 1')
 
         #There still a form to fill out to add another team. She enters Team 2
@@ -55,12 +60,42 @@ class NewVisitorTest(unittest.TestCase):
         save_button = self.browser.find_element_by_id('id_team_save')
         save_button.click()
 
+        #The page updates again and shows both teams
+        self.check_for_row_in_team_table('Team 1')
+        self.check_for_row_in_team_table('Team 2')
 
-        #Edith decides to enter a second Tournament
-        #self.assertIn('Tournament 2', [row.text for row in rows])
+        #Now a new user, Francis, comes along to the site
 
-        #self.assertEqual(save_button.value, "Save")
+        ## We use a new browser session to make sure that no information
+        ## of Edith's is coming through from cookies etc
+        self.browser.quit()
+        self.browser = webdriver.Firefox()
 
+        #Francis visits the home page. There's no sign of Edith's
+        # tournament
+        self.browser.get(self.live_server_url)
+        page_text = self.browser.find_element_by_tag_name('body').text
+        self.assertNotIn('Team 1', page_text)
+        self.assertNotIn('Team 2', page_text)
+
+        #Francis starts a new tournament by entering a new team.
+        # He has Qzar teams
+        tournament_name_inputbox = self.browser.find_element_by_id('id_team_name')
+        tournament_name_inputbox.send_keys('Q-Guerreros')
+        save_button = self.browser.find_element_by_id('id_team_save')
+        save_button.click()
+
+        #Francis gets his own unique URL
+        francis_tournament_url = self.browser.current_url
+        self.assertRegex(francis_tournament_url, '/tournaments/.+')
+        self.assertNotEqual(francis_tournament_url, edith_tournament_url)
+
+        #Again, there is no trace of Edith's tournament
+        page_text = self.browser.find_element_by_tag_name('body').text
+        self.assertNotIn('Team 1', page_text)
+        self.assertIn('Q-Guerreros', page_text)
+
+        #Statisfied they go back to sleep
 
         #She types Checks the checkbox since she wants to create 
         #to create a public tournament  
@@ -107,5 +142,3 @@ class NewVisitorTest(unittest.TestCase):
         # And she can correct it by filling some text in
         self.fail('write me!')
 
-if __name__ == '__main__':
-    unittest.main(warnings='ignore')
