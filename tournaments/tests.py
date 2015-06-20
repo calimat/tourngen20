@@ -1,12 +1,13 @@
+from unittest import skip
 from django.core.urlresolvers import resolve
-from django.test import  TestCase
+from django.test import TestCase
 from tournaments.views import home_page
 from django.http import HttpRequest
 from django.template.loader import render_to_string
-from tournaments.models import Tournament
+from tournaments.models import Team
+
 
 class HomePageTest(TestCase):
-
     def test_root_url_resolves_to_home_page_view(self):
         found = resolve('/')
         self.assertEqual(found.func, home_page)
@@ -20,28 +21,49 @@ class HomePageTest(TestCase):
     def test_home_page_can_save_a_POST_request(self):
         request = HttpRequest()
         request.method = 'POST'
-        request.POST['tournament_name'] = 'Tournament 1'
+        request.POST['team_name'] = 'Team 1'
 
         response = home_page(request)
 
-        self.assertIn('Tournament 1', response.content.decode())
-        expected_html = render_to_string(
-            'home.html',
-            {'new_tournament_name': 'Tournament 1'}
-        )
-        self.assertEqual(response.content.decode(), expected_html)
+        self.assertEqual(Team.objects.count(), 1)
+        new_team = Team.objects.first()
+        self.assertEqual(new_team.name, 'Team 1')
 
-class TournamentModelTest(TestCase):
+    def test_home_page_redirects_after_POST(self):
+        request = HttpRequest()
+        request.method = 'POST'
+        request.POST['team_name'] = 'Team 1'
 
-    def test_saving_and_retrieving_tournaments(self):
-        tournament_item = Tournament()
-        tournament_item.name = 'Tournament 1'
-        tournament_item.save()
+        response = home_page(request)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response['location'], '/')
+
+    def test_home_page_only_saves_teams_when_necessary(self):
+        request = HttpRequest()
+        home_page(request)
+        self.assertEqual(Team.objects.count(), 0)
+
+    def test_home_page_displays_all_teams_items(self):
+        Team.objects.create(name='teamey 1')
+        Team.objects.create(name='teamey 2')
+
+        request = HttpRequest()
+        response = home_page(request)
+
+        self.assertIn('teamey 1', response.content.decode())
+        self.assertIn('teamey 2', response.content.decode())
 
 
-        saved_tournaments = Tournament.objects.all()
-        self.assertEqual(saved_tournaments.count(), 1)
+class TournamentTeamTest(TestCase):
+    def test_saving_and_retrieving_teams(self):
+        team_item = Team()
+        team_item.name = 'Team 1'
+        team_item.save()
 
-        saved_tournament = saved_tournaments[0]
+        saved_teams = Team.objects.all()
+        self.assertEqual(saved_teams.count(), 1)
 
-        self.assertEqual(saved_tournament.name, 'Tournament 1')
+        saved_team = saved_teams[0]
+
+        self.assertEqual(saved_team.name, 'Team 1')

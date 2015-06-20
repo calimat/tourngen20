@@ -1,5 +1,6 @@
 from selenium import webdriver
 import unittest
+from unittest import skip
 from selenium.webdriver.common.keys import Keys
 
 
@@ -11,12 +12,12 @@ class NewTournamentCreation(unittest.TestCase):
     def tearDown(self):
         self.browser.quit()
 
-    def check_for_row_in_tournament_table(self, row_text):
-        tournnament_table = self.browser.find_element_by_id('id_tournament_table')
-        rows = tournnament_table.find_elements_by_tag_name('tr')
+    def check_for_row_in_team_table(self, row_text):
+        team_table = self.browser.find_element_by_id('id_team_table')
+        rows = team_table.find_elements_by_tag_name('tr')
         self.assertIn(row_text, [row.text for row in rows])
 
-    def test_can_enter_a_tournament_and_retrieve_it_later(self):
+    def test_can_enter_a_team_and_retrieve_it_later(self):
         #User enters the new tournament generator app
         self.browser.get('http://localhost:8000')
 
@@ -29,26 +30,26 @@ class NewTournamentCreation(unittest.TestCase):
         #self.assertIn('Name', tournament_name_label)
 
         # She is invited to insert the name of the tournament   with  a label that says name
-        tournament_form = self.browser.find_element_by_id('id_tournament_form')
-        tournament_name_label = self.browser.find_element_by_id('id_tournament_name_label')
+        team_form = self.browser.find_element_by_id('id_team_form')
+        team_name_label = self.browser.find_element_by_id('id_team_name_label')
 
-        self.assertEqual(tournament_name_label.text, "Name:")
-        tournament_name_inputbox = self.browser.find_element_by_id('id_tournament_name')
+        self.assertEqual(team_name_label.text, "Name:")
+        team_name_inputbox = self.browser.find_element_by_id('id_team_name')
 
 
 
         #She types "Tournament 1" in the name of the tournament  
-        tournament_name_inputbox.send_keys('Tournament 1')
+        team_name_inputbox.send_keys('Team 1')
 
 
 
         #tournament_name_inputbox.send_keys(Keys.ENTER)
         #She sees a save button and clicks on it
-        save_button = self.browser.find_element_by_id('id_tournament_save')
+        save_button = self.browser.find_element_by_id('id_team_save')
         save_button.click()
 
 
-        self.check_for_row_in_tournament_table('Tournament 1')
+        self.check_for_row_in_team_table('Team 1')
 
 
         #Edith decides to enter a second Tournament
@@ -84,7 +85,23 @@ class NewTournamentCreation(unittest.TestCase):
         #As soon as she clicks save , the page refreshes and she looks 
         # that her tournament was created with the fields that she entered.  
 
-        self.fail('Finish the test')
+        #self.fail('Finish the test')
+    @skip
+    def test_cannot_add_empty_list_items(self):
+        # Edith goes to the home page and accidentally tries to submit
+        # an empty list item. She hits Enter on the empty input box
+
+        # The home page refreshes, and there is an error message saying
+        # that list items cannot be blank
+
+        # She tries again with some text for the item, which now works
+
+        # Perversely, she now decides to submit a second blank list item
+
+        # She receives a similar warning on the list page
+
+        # And she can correct it by filling some text in
+        self.fail('write me!')
 
 if __name__ == '__main__':
     unittest.main(warnings='ignore')
