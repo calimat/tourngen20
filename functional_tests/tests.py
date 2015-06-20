@@ -4,7 +4,7 @@ from unittest import skip
 from selenium.webdriver.common.keys import Keys
 
 
-class NewTournamentCreation(unittest.TestCase):
+class NewVisitorTest(unittest.TestCase):
     def setUp(self):
         self.browser = webdriver.Firefox()
         self.browser.implicitly_wait(3)
@@ -47,9 +47,13 @@ class NewTournamentCreation(unittest.TestCase):
         #She sees a save button and clicks on it
         save_button = self.browser.find_element_by_id('id_team_save')
         save_button.click()
-
-
         self.check_for_row_in_team_table('Team 1')
+
+        #There still a form to fill out to add another team. She enters Team 2
+        team_name_inputbox = self.browser.find_element_by_id('id_team_name')
+        team_name_inputbox.send_keys('Team 2')
+        save_button = self.browser.find_element_by_id('id_team_save')
+        save_button.click()
 
 
         #Edith decides to enter a second Tournament

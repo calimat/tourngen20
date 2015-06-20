@@ -57,13 +57,19 @@ class HomePageTest(TestCase):
 
 class TournamentTeamTest(TestCase):
     def test_saving_and_retrieving_teams(self):
-        team_item = Team()
-        team_item.name = 'Team 1'
-        team_item.save()
+        first_team = Team()
+        first_team.name = 'Team 1'
+        first_team.save()
+
+        second_team = Team()
+        second_team.name = 'Team 2'
+        second_team.save()
 
         saved_teams = Team.objects.all()
-        self.assertEqual(saved_teams.count(), 1)
+        self.assertEqual(saved_teams.count(), 2)
 
-        saved_team = saved_teams[0]
+        first_saved_team = saved_teams[0]
+        second_saved_team = saved_teams[1]
 
-        self.assertEqual(saved_team.name, 'Team 1')
+        self.assertEqual(first_saved_team.name, 'Team 1')
+        self.assertEqual(second_saved_team.name, 'Team 2')
