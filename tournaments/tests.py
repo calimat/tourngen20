@@ -20,7 +20,6 @@ class HomePageTest(TestCase):
 
 
 class NewTournamentTest(TestCase):
-
     def test_saving_a_POST_request(self):
         self.client.post(
             '/tournaments/new',
@@ -36,12 +35,12 @@ class NewTournamentTest(TestCase):
             '/tournaments/new',
             data={'team_name': 'Team 1'}
         )
-        self.assertRedirects(response, '/tournaments/the-only-tournament-in-the-world/')
+        new_tournament = Tournament.objects.first()
+        self.assertRedirects(response, '/tournaments/%d/' % (new_tournament.id,))
 
 
 class TeamAndTournamenTModelTest(TestCase):
     def test_saving_and_retrieving_teams(self):
-
         tournament_ = Tournament()
         tournament_.save()
 
@@ -68,18 +67,24 @@ class TeamAndTournamenTModelTest(TestCase):
         self.assertEqual(second_saved_team.name, 'Team 2')
         self.assertEqual(second_saved_team.tournament, tournament_)
 
-class TournamentViewTest(TestCase):
 
+class TournamentViewTest(TestCase):
     def test_uses_tournament_template(self):
-        response = self.client.get('/tournaments/the-only-tournament-in-the-world/')
+        tournament = Tournament.objects.create()
+        response = self.client.get('/tournaments/%d/' % (tournament.id,))
         self.assertTemplateUsed(response, 'tournament.html')
 
-    def test_displays_all_teams(self):
-        Team.objects.create(name='teamey 1')
-        Team.objects.create(name='teamey 2')
+    def test_displays_only_teams_for_that_tournament(self):
+        correct_tournament = Tournament.objects.create()
+        Team.objects.create(name='teamey 1', tournament=correct_tournament)
+        Team.objects.create(name='teamey 2', tournament=correct_tournament)
+        other_tournament = Tournament.objects.create()
+        Team.objects.create(name='other tournament team 1', tournament=other_tournament)
+        Team.objects.create(name='other tournament team 2', tournament=other_tournament)
 
-
-        response = self.client.get('/tournaments/the-only-tournament-in-the-world/')
+        response = self.client.get('/tournaments/%d/' % (correct_tournament.id,))
 
         self.assertContains(response, 'teamey 1')
         self.assertContains(response, 'teamey 2')
+        self.assertNotContains(response, 'other tournament team 1')
+        self.assertNotContains(response, 'other tournament team 2')
