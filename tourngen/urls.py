@@ -1,12 +1,9 @@
-from django.conf.urls import patterns, include, url
-from django.contrib import admin
-
-from tournaments import views
+from django.conf.urls import include, url
+from tournaments import views as list_views  #1
+from tournaments import urls as list_urls  #2
 
 urlpatterns = [
-    url(r'^$', views.home_page, name='home'),
-    url(r'^tournaments/new$', views.new_tournament, name='new_list'),
-    url(r'^tournaments/(\d+)/$', views.view_tournament, name='view_list'),
-    url(r'^tournaments/(\d+)/add_team$', views.add_team, name='add_item'),
+    url(r'^$', list_views.home_page, name='home'),
+    url(r'^tournaments/', include(list_urls)),
     # url(r'^admin/', include(admin.site.urls)),
 ]
