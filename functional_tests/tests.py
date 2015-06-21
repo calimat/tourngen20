@@ -25,6 +25,9 @@ class NewVisitorTest(LiveServerTestCase):
         #She notices the page title and header "TOURNGEN"
         self.assertIn('Tourngen', self.browser.title)
 
+        #She sees a header that says "Create a team for your tournament"
+        team_header = self.browser.find_element_by_tag_name('h1')
+        self.assertEqual(team_header.text, 'Create a team for your tournament')
 
         #She sees a label for the tournament name input box that says Name
         #tournament_name_label = self.browser.find_element_by_id('id_tournament_name_label')
@@ -125,6 +128,20 @@ class NewVisitorTest(LiveServerTestCase):
         # that her tournament was created with the fields that she entered.  
 
         #self.fail('Finish the test')
+
+    def test_layout_and_styling(self):
+        #Edith goes to the home page
+        self.browser.get(self.live_server_url)
+        self.browser.set_window_size(1024,768)
+
+        #She notices the input box is nicely centered
+        team_name_inputbox = self.browser.find_element_by_id('id_team_name')
+        self.assertAlmostEqual(
+            team_name_inputbox.location['x'] + team_name_inputbox.size['width'] / 2,
+            512,
+            delta=5
+        )
+
     @skip
     def test_cannot_add_empty_list_items(self):
         # Edith goes to the home page and accidentally tries to submit
