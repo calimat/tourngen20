@@ -9,10 +9,14 @@ def home_page(request):
 
 def view_tournament(request, tournament_id):
     tournament = Tournament.objects.get(id=tournament_id)
-    teams = Team.objects.filter(tournament=tournament)
-    return render(request, 'tournament.html', {'teams': teams})
+    return render(request, 'tournament.html', {'tournament': tournament})
 
 def new_tournament(request):
    tournament = Tournament.objects.create()
    Team.objects.create(name=request.POST['team_name'], tournament=tournament)
    return redirect('/tournaments/%d/' % (tournament.id,))
+
+def add_team(request, tournament_id):
+    tournament = Tournament.objects.get(id=tournament_id)
+    Team.objects.create(name=request.POST['team_name'], tournament=tournament)
+    return redirect('/tournaments/%d/' % (tournament.id,))
