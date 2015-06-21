@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block header_text %}Your Tournaments{% endblock %}
+
+{% block form_action %}/tournaments/{{ tournament.id }}/add_team{% endblock %}
+
+{% block table %}
+    <table id="id_team_table" class="table">
+        {% for team in tournament.team_set.all %}
+            <tr><td> {{ team.name }}</td></tr>
+        {% endfor %}
+    </table>
+{% endblock %}
+
