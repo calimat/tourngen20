@@ -18,4 +18,4 @@ deployment:
   staging:
     branch: master
     commands:
-      - fab d_stage
+      - fab deploy
