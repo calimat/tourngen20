@@ -19,4 +19,4 @@ deployment:
     branch: stage
     commands:
       - fab d_stage
-          timeout: 600
+          
