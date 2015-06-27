@@ -16,7 +16,6 @@ test:
     - python manage.py test tournaments
 deployment:
   staging:
-    branch: stage
+    branch: master
     commands:
       - fab d_stage
-          
