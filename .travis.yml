@@ -19,7 +19,7 @@ before_script:
 
 #command to run tests
 script:
- - python3 manage.py test functional_tests
- - python3 manage.py test tournaments
+ - if [[ $TRAVIS_PYTHON_VERSION == '3.4' ]]; then python3 manage.py test functional_tests; fi
+ - if [[ $TRAVIS_PYTHON_VERSION == '3.4' ]]; then python3 manage.py test tournaments; fi
  - cd deploy_tools
- - if [[ $TRAVIS_PYTHON_VERSION == '2.7' ]]; then ab deploy:host=tourngenserver@staging2.tourngen.com; fi
+ - if [[ $TRAVIS_PYTHON_VERSION == '2.7' ]]; then deploy:host=tourngenserver@staging2.tourngen.com; fi
