@@ -2,9 +2,6 @@ language: python
 python:
  - "2.7"
 
-before_install:
- - sudo apt-get update
- - sudo apt-get install python3
 
 #command to install dependencies
 install:
@@ -21,4 +18,5 @@ before_script:
 script:
  - python3 manage.py test functional_tests
  - python3 manage.py test tournaments
- - fabric deploy
+ - cd deploy_tools
+ - fab deploy
