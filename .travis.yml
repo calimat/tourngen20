@@ -8,4 +8,4 @@ install:
  - "pip install -U selenium"
 
 #command to run tests
-script: "python3 manage.py runserver; python3 manage.py test"
+script: "chown 777 ../database/ ; python3 manage.py runserver; python3 manage.py test"
