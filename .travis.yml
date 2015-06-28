@@ -19,4 +19,4 @@ script:
  - python3 manage.py test functional_tests
  - python3 manage.py test tournaments
  - cd deploy_tools
- - fab deploy
+ - fab deploy tourngenserver@staging2.tourngen.com
