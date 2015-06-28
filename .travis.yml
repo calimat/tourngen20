@@ -6,7 +6,8 @@ python:
 install:
  - "pip install -r requirements.txt"
  - "pip install -U selenium"
- - "pip2 install fabric"
+ - "pip2 install paramiko"
+ - "pip install fabric"
 #possible fix for webdriver exception
 before_script:
   - export DISPLAY=:99.0
