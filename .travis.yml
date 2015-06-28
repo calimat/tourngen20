@@ -1,13 +1,16 @@
 language: python
 python:
- - "3.4"
+ - "2.7"
+
+before_install:
+ - sudo apt-get update
+ - sudo apt-get install python3
 
 #command to install dependencies
 install:
  - "pip install -r requirements.txt"
  - "pip install -U selenium"
- - "pip install paramiko"
- - "pip install fabric"
+ - "pip2 install fabric"
 #possible fix for webdriver exception
 before_script:
   - export DISPLAY=:99.0
