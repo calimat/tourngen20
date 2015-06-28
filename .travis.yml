@@ -3,6 +3,9 @@ python:
  - "2.7"
  - "3.4"
 
+addons:
+  ssh_known_hosts: tourngenserver@45.55.85.218
+
 env:
   -DEPS=true
 
