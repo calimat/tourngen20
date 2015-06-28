@@ -18,4 +18,4 @@ deployment:
   staging:
     branch: master
     commands:
-      - fab deploy
+      - fab /home/ubuntu/
