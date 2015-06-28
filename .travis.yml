@@ -7,5 +7,10 @@ install:
  - "pip install -r requirements.txt"
  - "pip install -U selenium"
 
+#possible fix for webdriver exception
+before_script:
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+
 #command to run tests
 script: "python3 manage.py test"
