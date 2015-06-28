@@ -1,12 +1,17 @@
 language: python
 python:
  - "2.7"
+ - "3.4"
+
+env:
+    - DEPS=true
+    - DEPS=false
 
 #command to install dependencies
 install:
- - "pip install -r requirements.txt"
- - "pip install -U selenium"
- - "pip2 install fabric"
+ - if [[ $TRAVIS_PYTHON_VERSION == 2.7 ]]; then  pip install -r requirements.txt
+ - if [[ $TRAVIS_PYTHON_VERSION == 2.7 ]]; then  pip install -U selenium
+ - if [[ $TRAVIS_PYTHON_VERSION == 2.7 ]]; then  pip2 install fabric
 #possible fix for webdriver exception
 before_script:
   - export DISPLAY=:99.0
@@ -15,7 +20,7 @@ before_script:
 
 #command to run tests
 script:
- - ../virtualenv/bin/python3 manage.py test functional_tests
- - ../virtualenv/bin/python3 tournaments
+ - if [[ $TRAVIS_PYTHON_VERSION == 3.4 ]]; then python3 manage.py test functional_tests
+ - if [[ $TRAVIS_PYTHON_VERSION == 3.4 ]]; then python3 tournaments
  - cd deploy_tools
  - fab deploy:host=tourngenserver@staging2.tourngen.com
