@@ -13,4 +13,6 @@ before_script:
   - sh -e /etc/init.d/xvfb start
 
 #command to run tests
-script: "python3 manage.py test"
+script:
+ - python3 manage.py test functional_tests
+ - python3 manage.py test tournaments
