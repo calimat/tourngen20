@@ -1,8 +1,6 @@
 language: python
 python:
  - "2.7"
- - "3.4"
-
 
 #command to install dependencies
 install:
@@ -17,7 +15,7 @@ before_script:
 
 #command to run tests
 script:
- - python3 manage.py test functional_tests
- - python3 manage.py test tournaments
+ - ../virtualenv/bin/python3 manage.py test functional_tests
+ - ../virtualenv/bin/python3 tournaments
  - cd deploy_tools
  - fab deploy:host=tourngenserver@staging2.tourngen.com
