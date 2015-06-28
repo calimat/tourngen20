@@ -2,8 +2,10 @@ language: python
 python:
  - "2.7"
  - "3.4"
- env:
+
+env:
   -DEPS=true
+
 #command to install dependencies
 install:
  - "pip install -r requirements.txt"
