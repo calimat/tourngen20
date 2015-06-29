@@ -9,6 +9,8 @@ env:
 install:
  - "pip install -r requirements.txt"
  - "pip2 install fabric"
+ -  pip install virtualenv
+ -  virtualenv --python=python3 ../virtualenv
 #possible fix for webdriver exception
 before_script:
   - export DISPLAY=:99.0
