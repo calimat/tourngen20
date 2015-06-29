@@ -3,9 +3,6 @@ python:
  - "3.4"
  - "2.7"
 
-addons:
-  ssh_known_hosts: tourngenserver@45.55.85.218
-
 env:
   -DEPS=true
 
@@ -25,6 +22,6 @@ script:
  - if [[ $TRAVIS_PYTHON_VERSION == '3.4' ]]; then python3 manage.py test functional_tests; fi
  - if [[ $TRAVIS_PYTHON_VERSION == '3.4' ]]; then python3 manage.py test tournaments; fi
 
-after_success:
+webhooks:
  - cd deploy_tools
  - if [[ $TRAVIS_PYTHON_VERSION == '2.7' ]]; then fab deploy:host=tourngenserver@staging2.tourngen.com -p Qzar123; fi
