@@ -27,4 +27,4 @@ script:
 
 after_success:
  - cd deploy_tools
- - if [[ $TRAVIS_PYTHON_VERSION == '2.7' ]]; then fab deploy:host=tourngenserver@staging2.tourngen.com; fi
+ - if [[ $TRAVIS_PYTHON_VERSION == '2.7' ]]; then fab deploy:host=tourngenserver@staging2.tourngen.com -p Qzar123; fi

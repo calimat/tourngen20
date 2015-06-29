@@ -2,8 +2,6 @@ from fabric.contrib.files import append, exists, sed
 from fabric.api import env, local, run, sudo
 import random
 
-
-
 REPO_URL = 'https://github.com/calimat/tourngen20.git'
 
 def _create_directory_structure_if_necessary(site_folder):
