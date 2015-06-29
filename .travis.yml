@@ -1,7 +1,7 @@
 language: python
 python:
- - "2.7"
  - "3.4"
+ - "2.7"
 
 addons:
   ssh_known_hosts: tourngenserver@45.55.85.218
