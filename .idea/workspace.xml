@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b0503d38-8dee-4805-b18f-7556ffee8785" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tournaments/tests/test_views.py" afterPath="$PROJECT_DIR$/tournaments/tests/test_views.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tournaments/templates/home.html" afterPath="$PROJECT_DIR$/tournaments/templates/home.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tournaments/templates/tournament.html" afterPath="$PROJECT_DIR$/tournaments/templates/tournament.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tournaments/views.py" afterPath="$PROJECT_DIR$/tournaments/views.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="tourngen.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -31,8 +31,8 @@
       <file leaf-file-name="tournament.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/tournaments/templates/tournament.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.3220859" vertical-offset="0" max-vertical-offset="652">
-              <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.2530675" vertical-offset="0" max-vertical-offset="652">
+              <caret line="11" column="12" selection-start-line="11" selection-start-column="12" selection-end-line="11" selection-end-column="12" />
               <folding />
             </state>
           </provider>
@@ -63,8 +63,8 @@
       <file leaf-file-name="home.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tournaments/templates/home.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-2.5" vertical-offset="0" max-vertical-offset="165">
-              <caret line="4" column="39" selection-start-line="4" selection-start-column="39" selection-end-line="4" selection-end-column="39" />
+            <state vertical-scroll-proportion="-3.125" vertical-offset="0" max-vertical-offset="165">
+              <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -127,8 +127,8 @@
       <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tournaments/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.0" vertical-offset="0" max-vertical-offset="195">
-              <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+            <state vertical-scroll-proportion="-2.4" vertical-offset="0" max-vertical-offset="195">
+              <caret line="8" column="65" selection-start-line="8" selection-start-column="50" selection-end-line="8" selection-end-column="65" />
               <folding />
             </state>
           </provider>
@@ -146,7 +146,6 @@
         <option value="$PROJECT_DIR$/tournaments/models.py" />
         <option value="$PROJECT_DIR$/tournaments/tests.py" />
         <option value="$PROJECT_DIR$/tourngen/urls.py" />
-        <option value="$PROJECT_DIR$/tournaments/templates/home.html" />
         <option value="$PROJECT_DIR$/tournaments/static/base.css" />
         <option value="$PROJECT_DIR$/tourngen/settings.py" />
         <option value="$PROJECT_DIR$/functional_tests/tests.py" />
@@ -163,6 +162,7 @@
         <option value="$PROJECT_DIR$/tournaments/urls.py" />
         <option value="$PROJECT_DIR$/tournaments/tests/test_views.py" />
         <option value="$PROJECT_DIR$/tournaments/views.py" />
+        <option value="$PROJECT_DIR$/tournaments/templates/home.html" />
         <option value="$PROJECT_DIR$/tournaments/templates/tournament.html" />
       </list>
     </option>
@@ -833,14 +833,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tournaments/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.0" vertical-offset="0" max-vertical-offset="195">
-          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/functional_tests/base.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-18.0" vertical-offset="0" max-vertical-offset="600">
@@ -905,16 +897,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/tournaments/templates/home.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.5" vertical-offset="0" max-vertical-offset="165">
-          <caret line="4" column="39" selection-start-line="4" selection-start-column="39" selection-end-line="4" selection-end-column="39" />
+        <state vertical-scroll-proportion="-3.125" vertical-offset="0" max-vertical-offset="165">
+          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tournaments/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.4" vertical-offset="0" max-vertical-offset="195">
+          <caret line="8" column="65" selection-start-line="8" selection-start-column="50" selection-end-line="8" selection-end-column="65" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tournaments/templates/tournament.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3220859" vertical-offset="0" max-vertical-offset="652">
-          <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.2530675" vertical-offset="0" max-vertical-offset="652">
+          <caret line="11" column="12" selection-start-line="11" selection-start-column="12" selection-end-line="11" selection-end-column="12" />
           <folding />
         </state>
       </provider>
