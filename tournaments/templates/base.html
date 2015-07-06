@@ -21,6 +21,11 @@
             <input id="id_team_name" name="team_name">
             <input id="id_team_save" type="submit" value="Save">
             {% csrf_token %}
+        {% if error %}
+            <div class="form-group has-error">
+                <span class="help-block">{{ error }}</span>
+            </div>
+         {% endif %}
     </form>
                 </div>
             </div>

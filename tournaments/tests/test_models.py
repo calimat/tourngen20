@@ -1,5 +1,6 @@
 from django.test import TestCase
 from tournaments.models import Team, Tournament
+from django.core.exceptions import ValidationError
 
 class TeamAndTournamenTModelTest(TestCase):
     def test_saving_and_retrieving_teams(self):
@@ -29,3 +30,9 @@ class TeamAndTournamenTModelTest(TestCase):
         self.assertEqual(second_saved_team.name, 'Team 2')
         self.assertEqual(second_saved_team.tournament, tournament_)
 
+    def test_cannot_save_empty_list_items(self):
+        tournament = Tournament.objects.create()
+        item = Team(tournament=tournament, name='')
+        with self.assertRaises(ValidationError):
+            item.save()
+            item.full_clean()

@@ -5,6 +5,7 @@ from tournaments.views import home_page
 from django.http import HttpRequest
 from django.template.loader import render_to_string
 from tournaments.models import Team, Tournament
+from django.utils.html import escape
 
 
 class HomePageTest(TestCase):
@@ -69,6 +70,18 @@ class NewTournamentTest(TestCase):
         correct_tournament = Tournament.objects.create()
         response = self.client.get('/tournaments/%d/' % (correct_tournament.id,))
         self.assertEqual(response.context['tournament'], correct_tournament)
+
+    def test_validation_errors_are_sent_back_to_home_page_template(self):
+        response = self.client.post('/tournaments/new', data={'team_name': ''})
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'home.html')
+        expected_error = escape("Please enter a name for your team")
+        self.assertContains(response, expected_error)
+
+    def test_invalid_tournament_teams_arent_saved(self):
+        self.client.post('/tournaments/new', data={'team_name': ''})
+        self.assertEqual(Tournament.objects.count(), 0)
+        self.assertEqual(Team.objects.count(), 0)
 
 
 
