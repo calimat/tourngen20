@@ -103,3 +103,14 @@ class TournamentViewTest(TestCase):
         )
 
         self.assertRedirects(response, '/tournaments/%d/' % (correct_tournament.id,))
+
+    def test_validation_errors_end_up_on_tournaments_page(self):
+        tournament = Tournament.objects.create()
+        response = self.client.post(
+            '/tournaments/%d/' % (tournament.id,),
+            data={'team_name': ''}
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'tournament.html')
+        expected_error = escape("Please enter a name for your team")
+        self.assertContains(response, expected_error)

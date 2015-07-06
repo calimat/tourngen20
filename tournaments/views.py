@@ -10,10 +10,19 @@ def home_page(request):
 
 def view_tournament(request, tournament_id):
     tournament = Tournament.objects.get(id=tournament_id)
+    error = None
+
     if request.method == 'POST':
-        Team.objects.create(name=request.POST['team_name'], tournament=tournament)
-        return redirect('/tournaments/%d/' % (tournament.id,))
-    return render(request, 'tournament.html', {'tournament': tournament})
+        try:
+           team = Team.objects.create(name=request.POST['team_name'], tournament=tournament)
+           team.full_clean()
+           team.save()
+           return redirect('/tournaments/%d/' % (tournament.id,))
+        except ValidationError:
+            error = "Please enter a name for your team"
+    return render(request, 'tournament.html', {'tournament': tournament, 'error': error})
+
+
 
 def new_tournament(request):
    tournament = Tournament.objects.create()
