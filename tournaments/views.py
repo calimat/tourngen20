@@ -17,7 +17,7 @@ def view_tournament(request, tournament_id):
            team = Team.objects.create(name=request.POST['team_name'], tournament=tournament)
            team.full_clean()
            team.save()
-           return redirect('/tournaments/%d/' % (tournament.id,))
+           return redirect(tournament)
         except ValidationError:
             error = "Please enter a name for your team"
     return render(request, 'tournament.html', {'tournament': tournament, 'error': error})
@@ -34,5 +34,5 @@ def new_tournament(request):
        tournament.delete()
        error = "Please enter a name for your team"
        return render(request, 'home.html', {"error": error})
-   return redirect('/tournaments/%d/' % (tournament.id,))
+   return redirect(tournament)
 

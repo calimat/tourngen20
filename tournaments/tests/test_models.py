@@ -36,3 +36,7 @@ class TeamAndTournamenTModelTest(TestCase):
         with self.assertRaises(ValidationError):
             item.save()
             item.full_clean()
+
+    def test_get_absolute_url(self):
+        tournament = Tournament.objects.create()
+        self.assertEqual(tournament.get_absolute_url(), '/tournaments/%d/' % (tournament.id,))
