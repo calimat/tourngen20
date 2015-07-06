@@ -10,6 +10,9 @@ def home_page(request):
 
 def view_tournament(request, tournament_id):
     tournament = Tournament.objects.get(id=tournament_id)
+    if request.method == 'POST':
+        Team.objects.create(name=request.POST['team_name'], tournament=tournament)
+        return redirect('/tournaments/%d/' % (tournament.id,))
     return render(request, 'tournament.html', {'tournament': tournament})
 
 def new_tournament(request):
@@ -24,7 +27,3 @@ def new_tournament(request):
        return render(request, 'home.html', {"error": error})
    return redirect('/tournaments/%d/' % (tournament.id,))
 
-def add_team(request, tournament_id):
-    tournament = Tournament.objects.get(id=tournament_id)
-    Team.objects.create(name=request.POST['team_name'], tournament=tournament)
-    return redirect('/tournaments/%d/' % (tournament.id,))

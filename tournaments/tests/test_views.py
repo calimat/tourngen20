@@ -39,32 +39,6 @@ class NewTournamentTest(TestCase):
         new_tournament = Tournament.objects.first()
         self.assertRedirects(response, '/tournaments/%d/' % (new_tournament.id,))
 
-    def test_can_save_a_POST_request_to_an_existing_list(self):
-        other_tournament = Tournament.objects.create()
-        correct_tournament = Tournament.objects.create()
-
-        self.client.post(
-            '/tournaments/%d/add_team' % (correct_tournament.id,),
-            data={'team_name': 'A new team for an existing tournament'}
-        )
-
-        self.assertEqual(Team.objects.count(), 1)
-        new_team = Team.objects.first()
-        self.assertEqual(new_team.name, 'A new team for an existing tournament')
-        self.assertEqual(new_team.tournament, correct_tournament)
-
-
-    def test_redirects_to_list_view(self):
-        other_tournament = Tournament.objects.create()
-        correct_tournament = Tournament.objects.create()
-
-        response = self.client.post(
-            '/tournaments/%d/add_team' % (correct_tournament.id,),
-            data={'team_name': 'A new team for an existing tournament'}
-        )
-
-        self.assertRedirects(response, '/tournaments/%d/' % (correct_tournament.id,))
-
     def test_passes_correct_tournament_to_template(self):
         other_tournament = Tournament.objects.create()
         correct_tournament = Tournament.objects.create()
@@ -82,7 +56,6 @@ class NewTournamentTest(TestCase):
         self.client.post('/tournaments/new', data={'team_name': ''})
         self.assertEqual(Tournament.objects.count(), 0)
         self.assertEqual(Team.objects.count(), 0)
-
 
 
 class TournamentViewTest(TestCase):
@@ -105,3 +78,28 @@ class TournamentViewTest(TestCase):
         self.assertContains(response, 'teamey 2')
         self.assertNotContains(response, 'other tournament team 1')
         self.assertNotContains(response, 'other tournament team 2')
+
+    def test_can_save_a_POST_request_to_an_existing_list(self):
+        other_tournament = Tournament.objects.create()
+        correct_tournament = Tournament.objects.create()
+
+        self.client.post(
+            '/tournaments/%d/' % (correct_tournament.id,),
+            data={'team_name': 'A new team for an existing tournament'}
+        )
+
+        self.assertEqual(Team.objects.count(), 1)
+        new_team = Team.objects.first()
+        self.assertEqual(new_team.name, 'A new team for an existing tournament')
+        self.assertEqual(new_team.tournament, correct_tournament)
+
+    def test_POST_redirects_to_tournament_view(self):
+        other_tournament = Tournament.objects.create()
+        correct_tournament = Tournament.objects.create()
+
+        response = self.client.post(
+            '/tournaments/%d/' % (correct_tournament.id,),
+            data={'team_name': 'A new team for an existing tournament'}
+        )
+
+        self.assertRedirects(response, '/tournaments/%d/' % (correct_tournament.id,))
