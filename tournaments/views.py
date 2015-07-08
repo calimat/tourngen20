@@ -16,7 +16,7 @@ def view_tournament(request, tournament_id):
 
     if request.method == 'POST':
         try:
-           team = Team.objects.create(name=request.POST['team_name'], tournament=tournament)
+           team = Team.objects.create(name=request.POST['name'], tournament=tournament)
            team.full_clean()
            team.save()
            return redirect(tournament)
@@ -28,7 +28,7 @@ def view_tournament(request, tournament_id):
 
 def new_tournament(request):
    tournament = Tournament.objects.create()
-   team = Team.objects.create(name=request.POST['team_name'], tournament=tournament)
+   team = Team.objects.create(name=request.POST['name'], tournament=tournament)
    try:
        team.full_clean()
        team.save()

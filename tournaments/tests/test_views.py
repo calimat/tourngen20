@@ -34,7 +34,7 @@ class NewTournamentTest(TestCase):
     def test_saving_a_POST_request(self):
         self.client.post(
             '/tournaments/new',
-            data={'team_name': 'Team 1'}
+            data={'name': 'Team 1'}
         )
 
         self.assertEqual(Team.objects.count(), 1)
@@ -44,7 +44,7 @@ class NewTournamentTest(TestCase):
     def test_redirects_after_POST(self):
         response = self.client.post(
             '/tournaments/new',
-            data={'team_name': 'Team 1'}
+            data={'name': 'Team 1'}
         )
         new_tournament = Tournament.objects.first()
         self.assertRedirects(response, '/tournaments/%d/' % (new_tournament.id,))
@@ -56,14 +56,14 @@ class NewTournamentTest(TestCase):
         self.assertEqual(response.context['tournament'], correct_tournament)
 
     def test_validation_errors_are_sent_back_to_home_page_template(self):
-        response = self.client.post('/tournaments/new', data={'team_name': ''})
+        response = self.client.post('/tournaments/new', data={'name': ''})
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'home.html')
         expected_error = escape("Please enter a name for your team")
         self.assertContains(response, expected_error)
 
     def test_invalid_tournament_teams_arent_saved(self):
-        self.client.post('/tournaments/new', data={'team_name': ''})
+        self.client.post('/tournaments/new', data={'name': ''})
         self.assertEqual(Tournament.objects.count(), 0)
         self.assertEqual(Team.objects.count(), 0)
 
@@ -95,7 +95,7 @@ class TournamentViewTest(TestCase):
 
         self.client.post(
             '/tournaments/%d/' % (correct_tournament.id,),
-            data={'team_name': 'A new team for an existing tournament'}
+            data={'name': 'A new team for an existing tournament'}
         )
 
         self.assertEqual(Team.objects.count(), 1)
@@ -109,7 +109,7 @@ class TournamentViewTest(TestCase):
 
         response = self.client.post(
             '/tournaments/%d/' % (correct_tournament.id,),
-            data={'team_name': 'A new team for an existing tournament'}
+            data={'name': 'A new team for an existing tournament'}
         )
 
         self.assertRedirects(response, '/tournaments/%d/' % (correct_tournament.id,))
@@ -118,7 +118,7 @@ class TournamentViewTest(TestCase):
         tournament = Tournament.objects.create()
         response = self.client.post(
             '/tournaments/%d/' % (tournament.id,),
-            data={'team_name': ''}
+            data={'name': ''}
         )
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'tournament.html')

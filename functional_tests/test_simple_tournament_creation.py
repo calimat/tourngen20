@@ -26,10 +26,10 @@ class NewVisitorTest(FunctionalTest):
 
         # She is invited to insert the name of the tournament   with  a label that says name
         team_form = self.browser.find_element_by_id('id_team_form')
-        team_name_label = self.browser.find_element_by_id('id_team_name_label')
+        #team_name_label = self.browser.find_element_by_id('id_team_name_label')
 
-        self.assertEqual(team_name_label.text, "Name:")
-        team_name_inputbox = self.browser.find_element_by_id('id_team_name')
+        #self.assertEqual(team_name_label.text, "Name:")
+        team_name_inputbox = self.get_team_input_box()
 
 
 
@@ -49,7 +49,7 @@ class NewVisitorTest(FunctionalTest):
         self.check_for_row_in_team_table('Team 1')
 
         #There still a form to fill out to add another team. She enters Team 2
-        team_name_inputbox = self.browser.find_element_by_id('id_team_name')
+        team_name_inputbox = self.get_team_input_box()
         team_name_inputbox.send_keys('Team 2')
         save_button = self.browser.find_element_by_id('id_team_save')
         save_button.click()
@@ -74,8 +74,8 @@ class NewVisitorTest(FunctionalTest):
 
         #Francis starts a new tournament by entering a new team.
         # He has Qzar teams
-        tournament_name_inputbox = self.browser.find_element_by_id('id_team_name')
-        tournament_name_inputbox.send_keys('Q-Guerreros')
+        tournament_team_name_inputbox = self.get_team_input_box()
+        tournament_team_name_inputbox.send_keys('Q-Guerreros')
         save_button = self.browser.find_element_by_id('id_team_save')
         save_button.click()
 

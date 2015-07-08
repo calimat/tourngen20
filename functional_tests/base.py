@@ -32,3 +32,6 @@ class FunctionalTest(StaticLiveServerTestCase):
         team_table = self.browser.find_element_by_id('id_team_table')
         rows = team_table.find_elements_by_tag_name('tr')
         self.assertIn(row_text, [row.text for row in rows])
+
+    def get_team_input_box(self):
+        return self.browser.find_element_by_id('id_name')

@@ -15,7 +15,7 @@ class LayoutAndStylingTest(FunctionalTest):
         self.browser.set_window_size(1024,768)
 
         #She notices the input box is nicely centered
-        team_name_inputbox = self.browser.find_element_by_id('id_team_name')
+        team_name_inputbox = self.get_team_input_box()
         self.assertAlmostEqual(
             team_name_inputbox.location['x'] + team_name_inputbox.size['width'] / 2,
             512,
