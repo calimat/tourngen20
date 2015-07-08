@@ -20,7 +20,7 @@ class TeamFormTest(TestCase):
         )
 
 
-    @skip 
+
     def test_form_team_input_has_css_classes(self):
         form = TeamForm()
         self.assertIn('class="form-control"', form.as_p())

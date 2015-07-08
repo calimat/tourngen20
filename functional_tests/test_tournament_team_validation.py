@@ -22,7 +22,7 @@ class TeamValidationTest(FunctionalTest):
 
         # She tries again with some text for the item, which now works
         self.get_team_input_box().send_keys('Q-Guerreros\n')
-        self.check_for_row_in_team_table('Q-Guerreros') #2
+        self.check_for_row_in_team_table('Q-Guerreros') #2x
 
         # Perversely, she now decides to submit a second blank list item
         self.get_team_input_box().send_keys('\n')

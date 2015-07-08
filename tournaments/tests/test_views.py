@@ -6,7 +6,8 @@ from django.http import HttpRequest
 from django.template.loader import render_to_string
 from tournaments.models import Team, Tournament
 from django.utils.html import escape
-from tournaments.forms import TeamForm
+from tournaments.forms import TeamForm, EMPTY_TEAM_ERROR
+
 
 class HomePageTest(TestCase):
     maxDiff = None
@@ -23,11 +24,11 @@ class HomePageTest(TestCase):
 
     def test_home_page_renders_home_template(self):
         response = self.client.get('/')
-        self.assertTemplateUsed(response, 'home.html') #1
+        self.assertTemplateUsed(response, 'home.html')  # 1
 
     def test_home_page_uses_team_form(self):
         response = self.client.get('/')
-        self.assertIsInstance(response.context['form'], TeamForm) #2
+        self.assertIsInstance(response.context['form'], TeamForm)  # 2
 
 
 class NewTournamentTest(TestCase):
@@ -55,12 +56,21 @@ class NewTournamentTest(TestCase):
         response = self.client.get('/tournaments/%d/' % (correct_tournament.id,))
         self.assertEqual(response.context['tournament'], correct_tournament)
 
-    def test_validation_errors_are_sent_back_to_home_page_template(self):
+    def test_for_invalid_input_renders_home_template(self):
         response = self.client.post('/tournaments/new', data={'name': ''})
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'home.html')
-        expected_error = escape("Please enter a name for your team")
-        self.assertContains(response, expected_error)
+
+
+    def test_validation_errors_are_shown_on_home_page(self):
+        response = self.client.post('/tournaments/new', data={'name': ''})
+        self.assertContains(response, escape(EMPTY_TEAM_ERROR))
+
+
+    def test_for_invalid_input_passes_form_to_template(self):
+        response = self.client.post('/tournaments/new', data={'name': ''})
+        self.assertIsInstance(response.context['form'], TeamForm)
+
 
     def test_invalid_tournament_teams_arent_saved(self):
         self.client.post('/tournaments/new', data={'name': ''})
@@ -124,3 +134,33 @@ class TournamentViewTest(TestCase):
         self.assertTemplateUsed(response, 'tournament.html')
         expected_error = escape("Please enter a name for your team")
         self.assertContains(response, expected_error)
+
+    def test_displays_team_form(self):
+        tournament = Tournament.objects.create()
+        response = self.client.get('/tournaments/%d/' % (tournament.id,))
+        self.assertIsInstance(response.context['form'], TeamForm)
+        self.assertContains(response, 'name="name"')
+
+    def post_invalid_input(self):
+        tournament = Tournament.objects.create()
+        return self.client.post(
+            '/tournaments/%d/' % (tournament.id,),
+            data={'name': ''}
+        )
+
+    def test_for_invalid_input_nothing_saved_to_db(self):
+        self.post_invalid_input()
+        self.assertEqual(Team.objects.count(), 0)
+
+    def test_for_invalid_input_renders_list_template(self):
+        response = self.post_invalid_input()
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'tournament.html')
+
+    def test_for_invalid_input_passes_form_to_template(self):
+        response = self.post_invalid_input()
+        self.assertIsInstance(response.context['form'], TeamForm)
+
+    def test_for_invalid_input_shows_error_on_page(self):
+        response = self.post_invalid_input()
+        self.assertContains(response, escape(EMPTY_TEAM_ERROR))
