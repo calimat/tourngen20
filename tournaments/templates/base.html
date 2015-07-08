@@ -17,8 +17,7 @@
             <div class="text-center">
                 <h1>{% block header_text %}{% endblock %}</h1>
     <form id="id_team_form" method="POST" action="{% block form_action %}{% endblock %}">
-    <label id="id_team_name_label">Name:</label>
-            <input id="id_team_name" name="team_name">
+    {{ form }}
             <input id="id_team_save" type="submit" value="Save">
             {% csrf_token %}
         {% if error %}

@@ -10,7 +10,7 @@ class TeamForm(forms.models.ModelForm):
         fields = ('name',)
         widgets = {
             'name': forms.fields.TextInput(attrs={
-                'class': 'form-control'
+                
             }),
 
         }

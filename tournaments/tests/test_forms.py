@@ -6,6 +6,11 @@ from tournaments.forms import TeamForm, EMPTY_TEAM_ERROR
 
 class TeamFormTest(TestCase):
 
+    @skip
+    def test_form(self):
+        form = TeamForm()
+        self.fail(form.as_p())
+
     def test_form_validation_for_blank_teams(self):
         form = TeamForm(data={'name': ''})
         self.assertFalse(form.is_valid())

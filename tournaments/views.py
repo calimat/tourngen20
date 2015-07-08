@@ -4,9 +4,11 @@ from django.shortcuts import render
 from tournaments.models import Team, Tournament
 # Create your views here.
 from django.core.exceptions import ValidationError
+from tournaments.forms import TeamForm
+from tournaments.models import Team, Tournament
 
 def home_page(request):
-    return render(request, 'home.html')
+    return render(request, 'home.html', {'form': TeamForm()})
 
 def view_tournament(request, tournament_id):
     tournament = Tournament.objects.get(id=tournament_id)
