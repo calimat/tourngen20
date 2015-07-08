@@ -6,6 +6,11 @@ EMPTY_TEAM_ERROR = "Please enter a name for your team"
 
 
 class TeamForm(forms.models.ModelForm):
+
+    def save(self, tournament):
+        self.instance.tournament = tournament
+        return super().save()
+
     class Meta:
         model = Team
         fields = ('name',)

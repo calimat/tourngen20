@@ -18,7 +18,7 @@ def view_tournament(request, tournament_id):
     if request.method == 'POST':
         form = TeamForm(data=request.POST)
         if form.is_valid():
-            Team.objects.create(name=request.POST['name'], tournament=tournament)
+            form.save(tournament=tournament)
             return redirect(tournament)
     return render(request, 'tournament.html', {'tournament': tournament, "form": form})
 
@@ -27,7 +27,7 @@ def new_tournament(request):
     form = TeamForm(data=request.POST)
     if form.is_valid():
         tournament = Tournament.objects.create()
-        Team.objects.create(name=request.POST['name'], tournament=tournament)
+        form.save(tournament=tournament)
         return redirect(tournament)
     else:
         return render(request, 'home.html', {"form": form})
